@@ -1,0 +1,60 @@
+{% extends 'blogging/base.html' %}
+{% load static %}
+{% block title %}
+Posts
+{% endblock title %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'blogging/css/style.css' %}">
+{% endblock links %}
+{% block content %}
+<div class="row">
+    <div class="col-12 mt-5">
+        
+        <p class="h1 first-heading">Recent Blogs:</p>
+        {% if posts %}
+            {% for post in posts %}
+            <div class="row mt-4">
+                <div class="col-md-3 d-flex justify-content-center align-items-center">
+                    <div>
+                        <img src="{{post.thumbnail.url}}" alt="Placeholder" class="img-thumbnail">
+                    </div>
+                </div>
+                <div class="col-md-9 d-flex align-items-center">
+                    <div>
+                        <p class="h4">{{post.title|upper}}</p>
+                        <div class="mr-5"><p class="lead text-justify">{{post.description|truncatewords:50}}</p></div>
+                        <div>
+                            <a href="{% url 'post_detail' post.slug %}" class="btn btn-primary btn-sm">View Post</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3"/>
+            {% endfor %}
+        {% else %}
+            <h4 class="display-4">No Post Found</h4>
+        {% endif %}
+        {% comment %} {% if posts.has_next %} {% endcomment %}
+            <nav>
+                <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if num == page_obj.number %}
+                            <li class="page-item active"><a class="page-link active" href="?page={{num}}">{{ num }}</a></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item"><a class="page-link" href="?page={{num}}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                {% if page_obj.has_next  %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number  }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                {% endif %}
+                </ul>
+            </nav>
+        {% comment %} {% endif %} {% endcomment %}
+    </div>
+</div>
+{% endblock content %}

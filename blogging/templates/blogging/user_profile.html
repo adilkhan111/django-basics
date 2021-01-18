@@ -1,0 +1,25 @@
+{% extends 'blogging/base.html' %}
+{% load static %}
+{% block title %}{{post.title}}{% endblock title %}
+{% block links %}
+{% comment %} <link rel="stylesheet" href="{% static 'blogging/css/style.css' %}"> {% endcomment %}
+{% endblock links %}
+{% block content %}
+<div class="row my-5">
+    <div class="col-md-8">
+        <div class="">
+            <img class="img-thumbnail" style="width:250px;height:250px;" src="{{user_p.userprofile.profile_img.url}}" /></br>
+            <p>First name: {{user_p.first_name}}</p></br>
+            <p>Last name: {{user_p.last_name}}</p></br>
+            <p>Email: {{user_p.email}}</p></br>
+            <p>Date of Birth: {{user_p.userprofile.dob}}</p></br>
+            <p>Qualification: {{user_p.userprofile.qualification}}</p></br>
+        </div>
+        {% if user == user_p %}
+        <div>
+            <a href="{% url 'update_user_profile' user_p.username %}" class="btn btn-warning">Edit Profile</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

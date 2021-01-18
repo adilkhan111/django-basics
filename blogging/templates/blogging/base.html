@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLogging-{% block title %}Home{% endblock title %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% block links %}
+    {% endblock links %}
+</head>
+<body>
+    {% include 'blogging/navbar.html' %}
+    <div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <p class="alert alert-{{message.tags}}">{{message}}</p>
+        {% endfor %}
+        {% endif %}
+    {% block content %}
+    {% endblock content %}
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>

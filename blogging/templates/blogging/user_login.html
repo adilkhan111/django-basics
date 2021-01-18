@@ -1,0 +1,35 @@
+{% extends 'blogging/base.html' %}
+{% load static %}
+{% block title %}
+Login
+{% endblock title %}
+{% block content %}
+<div class="row mt-5">
+    <div class="col-md-8">
+        <div class="">
+            <p class="display-4">
+               User Login
+            </p>
+        </div>
+        <div class="my-2">
+        {% if next %}
+        <form action="{% url 'user_login' %}?next={{next}}" method="post">
+        {% else %}
+        <form action="{% url 'user_login' %}" method="post">
+        {% endif %}
+        {% csrf_token %}
+            {% for field in form %}
+                {{field.label}} {{field}} <small class="text-warning">{{field.errors}}</small>    
+            {% endfor %}
+            <input type="submit" class="btn btn-success my-2" value="Login">
+            <a href="{% url 'index' %}" class="btn btn-danger my-2">Cancel</a>
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger">{{error}}</p>                
+                {% endfor %}
+            {% endif %}
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

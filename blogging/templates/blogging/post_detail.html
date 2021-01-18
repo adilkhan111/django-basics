@@ -1,0 +1,43 @@
+{% extends 'blogging/base.html' %}
+{% load static %}
+{% block title %}{{post.title}}{% endblock title %}
+{% block links %}
+{% comment %} <link rel="stylesheet" href="{% static 'blogging/css/style.css' %}"> {% endcomment %}
+{% endblock links %}
+{% block content %}
+<div class="row my-5">
+    <div class="col-md-8">
+        <div class="d-flex align-items-end">
+            <p class="display-4 mb-0 text-uppercase">
+                {{post.title}}
+            </p>
+            <div class="ml-auto">
+            <p class="text-muted mb-0">Created At: {{post.created_on}}</p>
+            <p class="text-muted mb-0">Last Modified At: {{post.last_modified}}</p>
+            <p class="text-muted mb-0">Author: <a href="{% url 'user_profile' post.author %}" class="text-primary">{{post.author}}</a><p>
+            <p class="text-muted mb-0">Categories: 
+            {% for category in post.category_id.all %}
+                <a href="" class="text-primary">{{category}}</a>
+            {% endfor %}
+            <p>
+            </div>
+        </div>
+        <div class="my-2">
+            <img src="{{post.banner.url}}" alt="Placeholder" class="img-fluid">
+        </div>
+        <div class="my-2">
+            <p class="lead text-justify">{{post.description}}.</p>
+        </div>
+        {% if user == post.author %}
+        <div>
+            <a href="{% url 'update_post' post.slug %}" class="btn btn-warning btn-sm">Edit</a>
+            <form action="{% url 'delete_post' post.slug %}" method="post">
+            {% csrf_token %}
+
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

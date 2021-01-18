@@ -1,0 +1,21 @@
+{% extends 'blogging/base.html' %}
+{% load static %}
+{% block title %}{{category.name}}{% endblock title %}
+{% block links %}
+{% comment %} <link rel="stylesheet" href="{% static 'blogging/css/style.css' %}"> {% endcomment %}
+{% endblock links %}
+{% block content %}
+<div class="row my-5">
+    <div class="col-md-8">
+        <div class="my-2">
+            <p class="lead text-justify">{{category.name}}</p>
+        </div>
+        {% comment %} {% if user == post.author %} {% endcomment %}
+        {% comment %} <div>
+            <a href="{% url 'update_post' post.slug %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'delete_post' post.slug %}" class="btn btn-danger btn-sm">Delete</a>
+        </div> {% endcomment %}
+        {% comment %} {% endif %} {% endcomment %}
+    </div>
+</div>
+{% endblock content %}
